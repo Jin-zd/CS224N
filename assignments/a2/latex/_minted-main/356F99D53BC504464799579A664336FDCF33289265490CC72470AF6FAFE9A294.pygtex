@@ -1,0 +1,5 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{stack} \PYG{o}{=} \PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}ROOT\PYGZdq{}}\PYG{p}{]}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{buffer} \PYG{o}{=} \PYG{n}{sentence}\PYG{o}{.}\PYG{n}{copy}\PYG{p}{()}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{dependencies} \PYG{o}{=} \PYG{p}{[]}
+\end{Verbatim}
