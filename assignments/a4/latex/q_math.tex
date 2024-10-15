@@ -21,11 +21,16 @@ Observe that the output $c\in\mathbb{R}^d$ is an average over the value vectors 
 \begin{subparts}
     \subpart[2] The distribution $\alpha$ is typically relatively ``diffuse''; the probability mass is spread out between many different $\alpha_i$. However, this is not always the case. \textbf{Describe} (in one sentence) under what conditions the categorical distribution $\alpha$ puts almost all of its weight on some $\alpha_j$, where $j \in \{1, \ldots, n\}$ (i.e. $\alpha_j \gg \sum_{i \neq j} \alpha_i$). What must be true about the query $q$ and/or the keys $\{k_1,\dots,k_n\}$?
 
-    \ifans{}
+    \ifans{
+        When the query $q$ is very similar to a key $k_j$, the categorical distribution $\alpha$ puts almost all of its weight on $\alpha_j$.
+        That is, when $q$ is very close to a key $k_j$, the product of $k_j^\top q$ will be much larger than others.
+    }
 
     \subpart[1] Under the conditions you gave in (i), \textbf{describe} the output $c$. 
 
-    \ifans{}
+    \ifans{
+        The output $c$ will be very close to the value vector $v_j$ corresponding to the key $k_j$.
+    }
 
 \end{subparts}
 
@@ -38,7 +43,18 @@ Consider the case where we instead want to incorporate information from \textbf{
 Assume that (1) all key vectors are orthogonal, so $k_i^\top k_j = 0$ for all $i \neq j$; and (2) all key vectors have norm $1$.
 \textbf{Find an expression} for a query vector $q$ such that $c \approx \frac{1}{2}(v_a + v_b)$, and \textbf{justify your answer}.\footnote{Hint: while the softmax function will never \textit{exactly} average the two vectors, you can get close by using a large scalar multiple in the expression.} (Recall what you learned in part~(\ref{copying}).)
 
-\ifans{}
+\ifans{
+    The query vector $q$'s direction is the same as $k_a + k_b$, which means that the angle between $q$ and $k_a$ is the same as the angle between $q$ and $k_b$. 
+    As $k_a^\top k_b = 0$, the angle between $k_a$ and $k_b$ is $90^\circ$. So the angle between $q$ and $k_a$ is $45^\circ$ and the angle between $q$ and $k_b$ is $45^\circ$ too. 
+    Thereby:
+    \alns{
+        \alpha_a &= \frac{\exp(k_a^\top q)}{\exp(k_a^\top q) + \exp(k_b^\top q)} \\
+                 &= \frac{\exp(|k_a||q|\cos45^\circ)}{\exp(|k_a||q|\cos45^\circ) + \exp(|k_b||q|\cos45^\circ)} \\
+                 &= \frac{\exp(|q|\cos45^\circ)}{\exp(|q|\cos45^\circ) + \exp(|q|\cos45^\circ)} \\
+                 &= \frac{1}{2}
+    }
+    Similarly, $\alpha_b = \frac{1}{2}$. So, $c = \frac{1}{2}(v_a + v_b)$.
+}
 
 \part[5]\textbf{Drawbacks of single-headed attention:} \label{q_problem_with_single_head}
 In the previous part, we saw how it was \textit{possible} for a single-headed attention to focus equally on two values.
@@ -52,7 +68,14 @@ Further, assume that the means $\mu_i$ are all perpendicular; $\mu_i^\top \mu_j 
 \subpart[2] Assume that the covariance matrices are $\Sigma_i = \alpha I, \forall i \in \{1, 2, \ldots, n\}$, for vanishingly small $\alpha$.
 Design a query $q$ in terms of the $\mu_i$ such that as before, $c\approx \frac{1}{2}(v_a + v_b)$, and provide a brief argument as to why it works.
 
-\ifans{}
+\ifans{
+    As $\alpha$ is vanishingly small, the keys $k_i$ will be concentrated around $\mu_i$.
+    The query vector $q$ could be designed as:
+    \[
+        q = \mu_a + \mu_b
+    \]
+    Just as the proof in part b, the output will be same as above.
+}
 
 \subpart[3] Though single-headed attention is resistant to small perturbations in the keys, some types of larger perturbations may pose a bigger issue. In some cases, one key vector $k_a$ may be larger or smaller in norm than the others, while still pointing in the same direction as $\mu_a$.\footnote{Unlike the original Transformer, newer Transformer models apply layer normalization before attention. In these pre-layernorm models, norms of keys cannot be too different which makes the situation in this question less likely to occur.}
 
@@ -67,7 +90,12 @@ As an example, let us consider a covariance for item $a$ as $\Sigma_a = \alpha I
 
 When you sample $\{k_1,\dots,k_n\}$ multiple times, and use the $q$ vector that you defined in part i., what do you expect the vector $c$ will look like qualitatively for different samples? Think about how it differs from part (i) and how $c$'s variance would be affected.
 
-\ifans{}
+\ifans{
+    When the key $k_a$ is sampled from a distribution with large variance, Its norm value fluctuates greatly.
+    When the norm of $k_a$ is large, the output $c$ will be closer to $v_a$.
+    When the norm of $k_a$ is small, the output $c$ will be closer to $v_b$.
+    As a result, the variance of $c$ will be larger than in part i.
+}
 \end{subparts}
 
 \part[3]\textbf{Benefits of multi-headed attention:} \label{q_multi_head}
@@ -84,18 +112,32 @@ Assume that the covariance matrices are $\Sigma_i=\alpha I$, for vanishingly sma
 Design $q_1$ and $q_2$ in terms of $\mu_i$ such that $c$ is approximately equal to $\frac{1}{2}(v_a+v_b)$. 
 Note that $q_1$ and $q_2$ should have different expressions.
 
-\ifans{}
+\ifans{
+    Let $q_1 = \mu_a$ and $q_2 = \mu_b$.
+}
 
 \subpart[2]
 Assume that the covariance matrices are $\Sigma_a=\alpha I + \frac{1}{2}(\mu_a\mu_a^\top)$ for vanishingly small $\alpha$, and $\Sigma_i=\alpha I$  for all $i \neq a$.
 Take the query vectors $q_1$ and $q_2$ that you designed in part i.
 What, qualitatively, do you expect the output $c$ to look like across different samples of the key vectors? Explain briefly in terms of variance in $c_1$ and $c_2$. You can ignore cases in which $k_a^\top q_i < 0$.
 
-\ifans{}
+\ifans{
+    The output $c$ will be closer to $\frac{1}{2}(v_a+v_b)$.
+    The variance of $c$ will be smaller than in the single-headed attention case.
+    let $l$ be the norm of $\mu_i$, then
+    \alns{
+        &c_1 \approx \frac{l}{l + 1}v_a + \frac{1}{l + 1}v_b \\
+        &c_2 \approx \frac{1}{l + 1}v_a + \frac{l}{l + 1}v_b
+    } 
+    As a result, the output $c$ will be closer to $\frac{1}{2}(v_a+v_b)$.
+}
 \end{subparts}
 
 \part[1] Based on part~(\ref{q_multi_head}), briefly summarize how multi-headed attention overcomes the drawbacks of single-headed attention that you identified in part~(\ref{q_problem_with_single_head}).
 
-\ifans{}
+\ifans{
+    Multi-headed attention can average the outputs of different queries, which can reduce the variance of the output.
+    This can help to mitigate the issue of large variance in the output of single-headed attention.
+}
 
 \end{parts}
