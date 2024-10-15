@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999996 (MiKTeX 24.3) (preloaded format=xelatex 2024.3.31)  15 OCT 2024 14:44
+This is XeTeX, Version 3.141592653-2.6-0.999996 (MiKTeX 24.3) (preloaded format=xelatex 2024.3.31)  15 OCT 2024 16:03
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
@@ -1205,7 +1205,7 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 [2]
 File: images/ka_plausible.png Graphic file (type bmp)
 <images/ka_plausible.png>
- [3]) (q_pos_enc.tex [4]) (q_code.tex
+ [3]) (q_pos_enc.tex [4] [5]) (q_code.tex
 Overfull \hbox (0.58247pt too wide) detected at line 29
 \TU/lmr/bx/n/14.4 3. Pretrained Transformer models and knowledge access (35 poi
 nts) 
@@ -1219,14 +1219,14 @@ LaTeX Font Warning: Font shape `TU/zi4/m/n' undefined
 (Font)              using `TU/lmr/m/n' instead on input line 36.
 
 
-LaTeX Warning: Citation `radford2018improving' on page 5 undefined on input lin
+LaTeX Warning: Citation `radford2018improving' on page 6 undefined on input lin
 e 38.
 
 
 LaTeX Font Warning: Font shape `TU/zi4/b/n' undefined
 (Font)              using `TU/zi4/m/n' instead on input line 42.
 
-[5] (C:\Softwares\Enviroments\MiKTeX\tex/latex/listings\lstlang1.sty
+[6] (C:\Softwares\Enviroments\MiKTeX\tex/latex/listings\lstlang1.sty
 File: lstlang1.sty 2024/03/11 1.10a listings language file
 )
 (C:\Softwares\Enviroments\MiKTeX\tex/latex/listings\lstlang1.sty
@@ -1237,15 +1237,15 @@ LaTeX Font Info:    Trying to load font information for T1+pcr on input line 88
 
 (C:\Softwares\Enviroments\MiKTeX\tex/latex/psnfss\t1pcr.fd
 File: t1pcr.fd 2001/06/04 font definitions for T1/pcr.
-) [6]
+) [7]
 
 Package xcolor Warning: Incompatible color definition on input line 103.
 
 
-LaTeX Warning: Citation `raffel2020exploring' on page 7 undefined on input line
+LaTeX Warning: Citation `raffel2020exploring' on page 8 undefined on input line
  112.
 
-[7]
+[8]
 
 Package xcolor Warning: Incompatible color definition on input line 150.
 
@@ -1255,26 +1255,25 @@ Underfull \hbox (badness 10000) in paragraph at lines 155--156
  []
 
 
-LaTeX Warning: Citation `su2024roformer' on page 8 undefined on input line 157.
+LaTeX Warning: Citation `su2024roformer' on page 9 undefined on input line 157.
 
 
-[8]
+[9]
 Overfull \hbox (17.64592pt too wide) in paragraph at lines 225--226
 []\TU/zi4/b/n/10 In the provided code, RoPE is implemented using the functions 
 precompute_rotary_emb
  []
 
-[9]
 
 Package xcolor Warning: Incompatible color definition on input line 250.
 
-)
+[10])
 Overfull \hbox (8.75201pt too wide) in paragraph at lines 182--183
 []\TU/zi4/b/n/10 The no-pretraining model and predictions: vanilla.model.params
 , vanilla.nopretrain.dev.predictions, 
  []
 
-[10]
+
 Overfull \hbox (17.92201pt too wide) in paragraph at lines 184--185
 []\TU/zi4/b/n/10 The pretrain-finetune model and predictions: vanilla.finetune.
 params, vanilla.pretrain.dev.predictions, 
@@ -1301,12 +1300,12 @@ Package rerunfilecheck Info: File `main.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 31478 strings out of 409555
- 572800 string characters out of 5774636
+ 31479 strings out of 409555
+ 572809 string characters out of 5774636
  1957148 words of memory out of 5000000
- 53091 multiletter control sequences out of 15000+600000
+ 53092 multiletter control sequences out of 15000+600000
  567512 words of font info for 87 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
- 109i,16n,107p,1007b,2326s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 109i,16n,107p,1007b,2206s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
 Output written on main.pdf (11 pages).
