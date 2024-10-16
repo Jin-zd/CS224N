@@ -209,17 +209,38 @@ For higher dimensional feature vectors, this interpretation allows us to compute
 
 Show that the elements of the vector in Equation~\ref{eq:rope_matrix} can be obtained from Equation~\ref{eq:rope_elementwise}. Note that some additional operations like reshaping are necessary to make the two expressions equal but you do not need to provide a detailed derivation for full points. 
 
-\ifans{}
+\ifans{
+    RoPE embeddings are defined by the following complex multiplication:
+    \[
+        \text{RoPE}(z_1, t_1) = e^{i t_1 \theta} z_1, \quad \text{RoPE}(z_2, t_2) = e^{i t_2 \theta} z_2
+    \]
+    The dot product of the RoPE embeddings at \( t_1 \) and \( t_2 \) is given by:
+    \[
+        \langle \text{RoPE}(z_1, t_1), \text{RoPE}(z_2, t_2) \rangle = \text{Re} (\overline{\text{RoPE}(z_1, t_1)} \cdot \text{RoPE}(z_2, t_2))
+    \]
 
-\subpart[1] \textbf{Relative Embeddings.} Now we will show that the dot product of the RoPE embeddings of two vectors at positions $t_1$ and $t_2$ depends on the relative position $t_1 - t_2$ only. 
+    Compute the conjugate of \( \text{RoPE}(z_1, t_1) \):
+    \[
+        \overline{\text{RoPE}(z_1, t_1)} = e^{-i t_1 \theta} \overline{z_1}
+    \]
+    Then, calculate the dot product:
+    \begin{align*}
+        \langle \text{RoPE}(z_1, t_1), \text{RoPE}(z_2, t_2) \rangle &= \text{Re} (e^{-i t_1 \theta} \overline{z_1} \cdot e^{i t_2 \theta} z_2) \\
+                                                                     &= \text{Re} ( e^{i (t_2 - t_1) \theta} \overline{z_1} z_2)
+    \end{align*}
 
-For simiplicity, we will assume two dimensional feature vectors (eg. $[a, b]$) and work with their complex number representations (eg. $a + ib$).
+    Now, consider the right-hand side of the equation we want to prove:
+    \begin{align*}
+        \langle \text{RoPE}(z_1, t_1 - t_2), \text{RoPE}(z_2, 0) \rangle &= \langle e^{i (t_1 - t_2) \theta} z_1, z_2 \rangle \\
+                                                                         &= \text{Re} (e^{i (t_1 - t_2) \theta} \overline{z_1} z_2)
+    \end{align*}
 
-Show that $\langle \text{RoPE}(z_1, t_1), \text{RoPE}(z_2, t_2) \rangle = \langle \text{RoPE}(z_1, t_1 - t_2), \text{RoPE}(z_2, 0) \rangle$ where $\langle \cdot, \cdot \rangle$ denotes the dot product and $\text{RoPE}(z, t)$ is the RoPE embedding of vector $z$ at position $t$.
-
-(Hint: Dot product of vectors represented as complex numbers is given by $\langle z_1, z_2 \rangle = \Re(\overline{z_1} z_2)$. For a complex number $z = a + ib\ (a,b\in\R$), $\Re(z) = a$ indicates the real component of $z$ and $\bar{z} = a - ib$ is the complex conjugate of $z$.)
-
-\ifans{}
+    We see that both expressions for the dot product are the same.
+    Therefore, the dot product of the RoPE embeddings depends only on the relative position \( t_1 - t_2 \), as required:
+    \[
+        \langle \text{RoPE}(z_1, t_1), \text{RoPE}(z_2, t_2) \rangle = \langle \text{RoPE}(z_1, t_1 - t_2), \text{RoPE}(z_2, 0) \rangle
+    \]
+}
 
 
 \subpart[8] In the provided code, RoPE is implemented using the functions \texttt{precompute\_rotary\_emb} and \texttt{apply\_rotary\_emb} in \texttt{src/attention.py}. You need to implement these functions and the parts of code marked \texttt{[part g]} in \texttt{src/attention.py} and \texttt{src/run.py} to use RoPE in the model.
@@ -264,21 +285,46 @@ We'll score your model as to whether it gets at least 30\% accuracy on the test 
 
 \part[1] Succinctly explain why the pretrained (vanilla) model was able to achieve an accuracy of above 10\%, whereas the non-pretrained model was not.
 
-\ifans{}
+\ifans{
+    The pretrained model was able to achieve an accuracy of above 10\% 
+    because it was trained on a large corpus of text data (Wikipedia) 
+    which contained information about the birthplaces of notable people. 
+    This allowed the model to learn the relationship between the names of people and their birthplaces. 
+    The non-pretrained model, on the other hand, was not trained on any data that contained this information, 
+    so it had no way of learning this relationship.
+}
 
 \part[2] Take a look at some of the correct predictions of the pretrain+finetuned vanilla model, as well as some of the errors.
 We think you'll find that it's impossible to tell, just looking at the output, whether the model \textit{retrieved} the correct birth place, or \textit{made up} an incorrect birth place.
 Consider the implications of this for user-facing systems that involve pretrained NLP components.
 Come up with two \textbf{distinct} reasons why this model behavior (i.e. unable to tell whether it's retrieved or made up) may cause concern for such applications, and an example for each reason.
 
-\ifans{}
+\ifans{
+    One reason why this model behavior may cause concern for user-facing systems is that it can lead to the spread of misinformation. 
+    For example, if the model makes up a birthplace for a notable person, 
+    and this information is then presented to users as fact, 
+    it can lead to the spread of false information about that person. 
+    This can be particularly problematic if the information is sensitive or controversial. 
+
+    Another reason why this model behavior may cause concern for user-facing systems is that it can lead to a lack of transparency. 
+    For example, if the model makes up a birthplace for a notable person, 
+    and this information is then presented to users as fact, 
+    users may not be aware that the information was generated by a model and not retrieved from a reliable source. 
+    This lack of transparency can erode trust in the system and lead to users being misled by the information presented to them.
+}
 
 \part[2] If your model didn't see a person's name at pretraining time, and that person was not seen at fine-tuning time either, it is not possible for it to have ``learned'' where they lived.
 Yet, your model will produce \textit{something} as a predicted birth place for that person's name if asked.
 Concisely describe a strategy your model might take for predicting a birth place for that person's name, and one ethical concern this raises for the use of such applications.\\
 (While 4b discussed the problems that could arise from made up predictions, 4c asks for a mechanism the model could be using for generating birth places of people not seen at fine-tuning time and why such a mechanism could be problematic.)
 
-\ifans{}
+\ifans{
+    One strategy the model might take for predicting a birthplace for a person not seen at fine-tuning time is to generate a random birthplace. 
+    This could be done by sampling from a distribution of birthplaces seen during training, 
+    or by generating a birthplace based on some other criteria. 
+    This raises an ethical concern because the model is providing information that it has no basis for, 
+    which can lead to the spread of false information and the potential for harm to individuals or groups.
+}
 
 \end{parts}
 
