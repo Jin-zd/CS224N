@@ -1,4 +1,4 @@
-## CS224N: Natural Language Processing with Deep Learning Spring 2024
+## Stanford CS224N: Natural Language Processing with Deep Learning, Spring 2024
 
 课程主页 [https://web.stanford.edu/class/cs224n/index.html](https://web.stanford.edu/class/cs224n/index.html)
 
